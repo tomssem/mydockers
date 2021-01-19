@@ -1,4 +1,4 @@
-FROM registry/base
+FROM tfwnicholson/base
 
 MAINTAINER Tom Nicholson "https://github.com/tomssem/"
 

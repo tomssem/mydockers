@@ -1,6 +1,10 @@
-FROM registry/vim
+FROM tfwnicholson/vim
 
 MAINTAINER Tom Nicholson "https://github.com/tomssem/"
+
+ARG NPROC
+
+RUN echo "nproc: $NPROC"
 
 # CPP
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
@@ -16,7 +20,19 @@ RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
 
-## setup YouCompleteMe for C-like languages
+# setup YouCompleteMe for C-like languages
 RUN /root/.vim/bundle/YouCompleteMe/install.py --clang-completer
+
+# Install things related to C++
+RUN apt-get install doxygen gdb -y
+
+ADD ycm_extra_conf.py /root/.ycm_extra_conf.py
+
+# Install boost
+RUN wget https://dl.bintray.com/boostorg/release/1.75.0/source/boost_1_75_0.tar.gz
+RUN tar -xzvf boost_1_75_0.tar.gz
+RUN cd boost_1_75_0 && ./bootstrap.sh && ./b2 -j${NPROC} && ./b2 --with=all -j ${NPROC} install
+
+run rm -r boost*
 
 CMD ["/bin/bash"]
