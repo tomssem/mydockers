@@ -17,7 +17,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-fugitive'
 
 " check syntax
-Plugin 'vim-syntastic/syntastic'
+Plugin 'dense-analysis/ale'
 
 " automatically pair brackets
 Plugin 'jiangmiao/auto-pairs'
@@ -46,6 +46,9 @@ Plugin 'vhdirk/vim-cmake'
 
 " Gutentags
 Plugin 'ludovicchabant/vim-gutentags'
+
+" Python stuff
+Plugin 'tell-k/vim-autopep8'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -102,10 +105,15 @@ set ruler
 " allow copying to clipboard
 vmap <F6> :!xclip -f -sel clip<CR>
 
+" ALE settings
+let g:ale_fix_on_save = 1
 
-" Syntastic setup
-let g:syntastic_cpp_clang_tidy_post_args = ""
-noremap <F4> :SyntasticReset<CR>
+" Python settings
+" Check Python files with flake8 and pylint.
+let b:ale_linters = ['flake8', 'pylint']
+" Fix Python files with autopep8 and yapf.
+let b:ale_fixers = ['autopep8', 'yapf']
+
 
 let g:ycm_global_ycm_extra_conf = "$HOME/.ycm_extra_conf.py"
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -124,3 +132,5 @@ let g:ctrlp_cmd = 'CtrlP'
 set clipboard=unnamedplus
 
 color desert
+
+set hlsearch

@@ -17,4 +17,6 @@ RUN mkdir -p /root/.vim/colors && git clone https://github.com/NLKNguyen/paperco
 ## install plugins
 RUN vim +PluginInstall +qall
 
+RUN cd ~/.vim/bundle/YouCompleteMe && python3 install.py
+
 CMD ["/bin/bash"]

@@ -1,4 +1,4 @@
-FROM tfwnicholson/vim
+FROM tfwnicholson/base
 
 MAINTAINER Tom Nicholson "https://github.com/tomssem/"
 
@@ -19,9 +19,6 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
-
-# setup YouCompleteMe for C-like languages
-RUN /root/.vim/bundle/YouCompleteMe/install.py --clang-completer
 
 # Install things related to C++
 RUN apt-get install doxygen gdb -y

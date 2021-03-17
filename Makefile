@@ -15,13 +15,15 @@ $(DEPENDS): $(DOCKERFILES) Makefile
 	sed 's@[:/]@\\:@g' | awk '{ print $$1 ": " $$2 }' > $@
 sinclude $(DEPENDS)
 $(IMAGES): %:
-	if docker build --build-arg NPROC=$(NPROC) -t $(REGISTRY)/$@ $(subst :,/,$@)\
-			| grep "^Step [0-9][0-9]*/[0-9][0-9]* :" -A1 --no-group-separator\
-			| grep -v "^Step [0-9][0-9]*/[0-9][0-9]* :"\
-			| grep "^ ---> Running";\
-	then\
-		docker push $(REGISTRY)/$@;\
-	else\
-		echo "No work done not pushing to registry";\
-	fi
+	docker build --build-arg NPROC=$(NPROC) -t $(REGISTRY)/$@ $(subst :,/,$@)
+	docker push $(REGISTRY)/$@
+#	if docker build --build-arg NPROC=$(NPROC) -t $(REGISTRY)/$@ $(subst :,/,$@)\
+#			| grep "^Step [0-9][0-9]*/[0-9][0-9]* :" -A1 --no-group-separator\
+#			| grep -v "^Step [0-9][0-9]*/[0-9][0-9]* :"\
+#			| grep "^ ---> Running";\
+#	then\
+#		docker push $(REGISTRY)/$@;\
+#	else\
+#		echo "No work done not pushing to registry";\
+#	fi
 
